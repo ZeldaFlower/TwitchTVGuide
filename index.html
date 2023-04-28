@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      This is the page head - it contains info the browser uses to display the page
+      You won't see what's in the head in the page
+      Scroll down to the body element for the page content
+    -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="https://glitch.com/favicon.ico" />
+
+    <!-- 
+      This is an HTML comment
+      You can write text in a comment and the content won't be visible in the page
+    -->
+
+    <title>ZeldaFlower's TV Guide!</title>
+
+    <!-- Meta tags for SEO and social sharing -->
+    <link rel="canonical" href="https://glitch-hello-website.glitch.me/" />
+    <meta
+      name="description"
+      content="A simple website, built with Glitch. Remix it to get your own."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Hello World!" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://glitch-hello-website.glitch.me/" />
+    <meta
+      property="og:description"
+      content="A simple website, built with Glitch. Remix it to get your own."
+    />
+    <meta
+      property="og:image"
+      content="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2Fhello-website-social.png?v=1616712748147"
+    />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- Import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <!--
+      This is the body of the page
+      Look at the elements and see how they appear in the rendered page on the right
+      Each element is defined using tags, with < and > indicating where each one opens and closes
+      There are elements for sections of the page, images, text, and more
+      The elements include attributes referenced in the CSS for the page style
+    -->
+
+    <!-- The wrapper and content divs set margins and positioning -->
+    <div class="wrapper">
+      <div class="content" role="main">
+        <!-- This is the start of content for our page -->
+        <h1 class="title">ZeldaFlower's TV Guide</h1>
+
+        <img
+          src="https://cdn.glitch.global/1b7e855d-6611-481a-a0d4-b0d69a71e5ca/zelda.png?v=1681434623144"
+          class="illustration"
+          alt="Editor illustration"
+          title="Click the image!"
+        />
+        <!-- Instructions on using this project -->
+        <div class="instructions">
+          <h2>
+            Mutual Followers/Following for User:
+          </h2>
+<!--           <p>
+            This is the Glitch <strong>Hello Website</strong> project. You can
+            use it to build your own site. Check out README.md in the editor for
+            more info and next steps you can take!
+          </p> -->
+          <input type="text" id="userName" name="userName" value="ZeldaFlower">
+          <input type="submit" name="submit" id="getSchedules" value="Get Schedules">
+          <p id="schedule">
+             
+          </p>
+          <!-- ADD BUTTON HERE -->
+<!--           <label for="userName">Username:</label> -->
+          
+          <!-- Once you've added the button from the readme, click it in the page -->
+          <!-- Check out the function in script.js to see how it works -->
+        </div>
+        
+    
+      </div>
+    </div>
+          
+    
+          
+    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
+    <footer class="footer">
+      <div class="links"></div>
+      <a
+        class="btn--remix"
+        target="_top"
+        href="https://glitch.com/edit/#!/remix/glitch-hello-website"
+      >
+        <img
+          src="https://cdn.glitch.com/605e2a51-d45f-4d87-a285-9410ad350515%2FLogo_Color.svg?v=1618199565140"
+          alt=""
+        />
+        Remix on Glitch
+      </a>
+    </footer>
+    
+    <script type="text/javascript">
+      
+document.getElementById('getSchedules').onclick = getSchedules;
+      
+function getSchedules() {
+  // console.log("madeit")
+const Http = new XMLHttpRequest();
+var userName = document.getElementById("userName").value;
+   var text=tvGuide(userName)
+  //document.getElementById("schedule").innerHTML=text
+}
+
+function shoutout(streamer) {
+  var streamerInfo = getUrl("users?login="+streamer)
+      // TODO: fix getting the game played
+    //var streamLiveInfo = getStreamLiveInfo(streamer)
+    var gamePlayed = ""
+   /// if (streamLiveInfo.data[0]) {
+  //    gamePlayed = `They were last seen playing "${streamLiveInfo.data[0].game_name}"`
+    //}
+  return `Shoutout to @${streamer}! Channel description: "${streamerInfo.data[0].description}" "${gamePlayed}". Send some love their way by giving them a follow! <3 http://www.twitch.tv/${streamer}`
+}
+      
+      
+//////////////
+// TV Guide //
+//////////////
+
+function tvGuide(target) {
+  var liveChannels = []
+  var offlineChannels = []
+  messageOnlineAndOfflineSchedules(target)
+  // client.say(target, "Live Streamers: " + liveChannels)
+  // client.say(target, "Offline Streamers: " + offlineChannels) 
+}
+
+// TODO: 
+      
+      // make people who haven't streamed in 2 or 3 weeks drop off the list (probably inaccurate schedule, and this will make it go faster in the long run)
+      // ability for ppl to change to their time zone instead of GMT
+      // offline - ask ppl if their schedule is accurate
+      // check if schedule is accurate by looking at past streams vs schedule
+      // images as background to table so it looks like my image
+      // change font to look like my image (tried, font not found)
+// make functions do one thing
+// make faster      
+// fix shoutout command to do recent game streamed
+// make "!live DanielAndMaya" do live follows of DanielAndMaya
+      
+// DONE 3/30/23 - make "!live" command do only live follows of ZeldaFlower
+// DONE 4/6/23 then when looping thru do 7 checks to see if date is which day in the next seven days to assign it to a column
+// DONE 4/6/23 format to a table, add <table><tr><th>Live</th><th>Monday (new Date().format(weekday))</th></tr> <tr> <td></td> <td></td></tr></table>
+
+// DONE: change getAndMessageOfflineStreamerInfo to getStreamerScheduleInfo, and just return an object. 
+      // all formatting can go in a different method.
+      
+      // DONE 4/13/23       // add zelda~
+// DONE 4/13/23 make username an input, so I could pass in anyone's username to get the schedule
+// Done 4/13/23 make also do following, or intersection of both.
+      // DONE: 4/20/23 make links stay when you sort
+function messageOnlineAndOfflineSchedules(username) {
+  document.getElementById("schedule").innerHTML=""
+  var scheduleTable = "<table><thead><tr><th>Username</th><th>Live</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr></thead>"
+  var info=getStreamInfo(username)//"ZeldaFlower")
+  
+  // get followers of username
+    var followers=getUrl("users/follows?to_id="+info.data[0].id)
+    var followersMap={}
+    //console.log(followers)
+   while (followers.pagination) {
+      for (var i=0; i<followers.data.length;i++) {
+        
+        var streamer=followers.data[i]
+        // console.log(streamer.from_login)
+        followersMap[streamer.from_login] = streamer
+      }
+      
+     followers=getUrl("users/follows?to_id="+info.data[0].id+"&after="+followers.pagination.cursor)
+    }
+  // get users username is following
+    var following=getUrl("users/follows?from_id="+info.data[0].id)
+    var followingArray=[]
+    while (following.pagination) {
+      for (var i=0; i<following.data.length;i++) {
+        
+        var streamer=following.data[i]
+        // console.log(streamer.to_login)
+        followingArray.push(streamer)
+      }
+      
+     following=getUrl("users/follows?from_id="+info.data[0].id+"&after="+following.pagination.cursor)
+    }
+    var mutualArray=[]
+  for(var j=0;j<followingArray.length;j++) {
+    var followingAccount = followingArray[j].to_login
+    // console.log(followingAccount)
+    // console.log(followersMap[followingAccount])//
+    if (followersMap[followingAccount]) {
+      mutualArray.push(followingArray[j])
+    }
+  }
+  var unscheduledStreamersCache= [
+    "bajablast181",
+    "zuwoopy",
+    "eazy_instinct",
+    "dark_cali_angel",
+    "mpdripdrip",
+    "fi_dory",
+    "jolt2o9",
+    "imawarefam",
+    "forsaken_emp1re",
+    "xxevopoohbearxx",
+    "deathartultra",
+    "mandysmayhemxoxo",
+    "ma77wilde",
+    "ttvskullzzhype",
+    "goos3runn3r",
+    "aj_gaming98",
+    "prymetymegaming",
+    "the_newf",
+    "yoitsdunks",
+    "bosstie22",
+    "tiiasandia",
+    "ladyoceaneyz_",
+    "rubymist2214",
+    "koa_fallenangel",
+    "adderall_papiii",
+    "mr_curlzz_",
+    "nepatrick1221",
+    "perugio_",
+    "the7entity",
+    "mattsmallfry",
+    "hoodiej21",
+    "10redacted",
+    "wyom1ng",
+    "tubbtuca",
+    "winterbis_",
+    "tinysnacks",
+    "bronzedragon43",
+    "arica_streams",
+    "hellosarahann",
+    "cozykoi",
+    "mr2more",
+    "xoxokiller_",
+    "pandoraspberry",
+    "hollsiepop",
+    "inaihighestkite",
+    "flyingshadow7",
+    "streamerdoctor",
+    "dewditsjay",
+    "vidictivegame",
+    "l_monk_l", 'supastar__', 'vintageag'
+]
+  
+    var unscheduledStreamers = []
+  for(var j=0;j<mutualArray.length;j++) {
+        var streamerId=mutualArray[j].to_id
+        var streamerName=mutualArray[j].to_login
+        
+        var thisWeekSchedule = {
+              Monday: [],
+              Tuesday: [],
+              Wednesday: [],
+              Thursday: [],
+              Friday: [],
+              Saturday: [],
+              Sunday: []
+            }
+        if (!(unscheduledStreamersCache.indexOf(streamerName.toLowerCase()) > -1)) {
+          // console.log(streamerName)
+          thisWeekSchedule = getStreamerScheduleInfo(streamerName, streamerId)
+        }
+        if (!thisWeekSchedule) {
+          // console.log("no schedule")
+          unscheduledStreamers.push(streamerName)
+          thisWeekSchedule = {
+              Monday: [],
+              Tuesday: [],
+              Wednesday: [],
+              Thursday: [],
+              Friday: [],
+              Saturday: [],
+              Sunday: []
+            }
+        }
+        var liveInfo = getUrl("streams?user_id="+streamerId)
+        scheduleTable = formatScheduleInfo(scheduleTable, liveInfo, thisWeekSchedule, streamerName, streamerId)
+  }
+  // console.log("unscheduled:")
+  // console.log(unscheduledStreamers)
+  
+    document.getElementById("schedule").innerHTML=  scheduleTable+"</table>"
+  const table = document.querySelector('table'); //get the table to be sorted
+
+table.querySelectorAll('th') // get all the table header elements
+  .forEach((element, columnNo)=>{ // add a click handler for each 
+    element.addEventListener('click', event => {
+        sortTable(table, columnNo); //call a function which sorts the table by a given column number
+    })
+  })
+}
+     function sortTable(table, sortColumn) {
+  // get the data from the table cells
+  const tableBody = table.querySelector('tbody')
+  const tableData = table2data(tableBody);
+  // sort the extracted data
+  tableData.sort((a, b)=>{
+    var atime=a[sortColumn]
+    console.log(atime)
+    if (atime.indexOf) {
+    if(a[sortColumn].indexOf(" ") != -1){
+      atime= a[sortColumn].substring(0,a[sortColumn].indexOf(" "))
+    }
+    var btime=b[sortColumn]
+    if(b[sortColumn].indexOf(" ") != -1){
+      btime= b[sortColumn].substring(0,b[sortColumn].indexOf(" "))
+    }
+    if(atime.indexOf(":") != -1){
+      atime=atime.substring(0,atime.indexOf(":"))
+    }
+    if(btime.indexOf(":") != -1){
+      btime=btime.substring(0,btime.indexOf(":"))
+    }
+    // console.log("atime:"+atime)
+    // console.log("btime:"+btime)
+    if(atime && btime && (Number(atime) > Number(btime))) {
+      // console.log("1")
+      return 1;
+    }
+    if(atime == btime){
+    // console.log("0")
+      return 0
+    }
+    if(atime ==""){
+    // console.log("1")
+      return 1
+    }
+    // console.log("-1")
+    return -1;
+  } else {
+    return -1
+  }
+    
+                 })
+       
+       
+       //tableData.sort((a,b)=> a[sortColumn]-b[sortColumn])// TODO: fix shorthand sort
+       
+       
+  // put the sorted data back into the table
+  data2table(tableBody, tableData);
+}
+      // this function gets data from the rows and cells 
+// within an html tbody element
+function table2data(tableBody) {
+  const tableData = []; // create the array that'll hold the data rows
+  tableBody.querySelectorAll('tr')
+    .forEach(row=>{  // for each table row...
+      const rowData = [];  // make an array for that row
+      // console.log(row.querySelectorAll('td'))
+      console.log(row.querySelectorAll('td')[0].children[0]);
+    
+      row.querySelectorAll('td')  // for each cell in that row
+        .forEach(cell=>{
+          //rowData.push(cell.innerText);
+          rowData.push(cell.children[0]?cell.children[0]:cell.innerText);  // add it to the row data
+        })
+      tableData.push(rowData);  // add the full row to the table data 
+    });
+  return tableData;
+}
+
+// this function puts data into an html tbody element
+function data2table(tableBody, tableData){
+  tableBody.querySelectorAll('tr') // for each table row...
+    .forEach((row, i)=>{  
+      const rowData = tableData[i]; // get the array for the row data
+      row.querySelectorAll('td')  // for each table cell ...
+        .forEach((cell, j)=>{
+            cell.innerHTML="";
+        cell.append(rowData[j])
+        // const node = document.createTextNode( rowData[j] )
+            // cell.appendChild(node)
+        /*
+        while (cell.hasChildNodes()) {
+    cell.removeChild(cell.lastChild);
+}*/
+          //cell.innerHTML = rowData[j] //.append( rowData[j]); // put the appropriate array element into the cell
+        })
+    });
+}
+
+function formatScheduleInfo(scheduleTable, liveInfo, thisWeekSchedule, streamerName, streamerId) {
+        
+        var liveGameName = ""
+        if (liveInfo.data[0] && liveInfo.data[0].type == "live") {
+          liveGameName = liveInfo.data[0].game_name
+        }
+        scheduleTable= scheduleTable +"<tr><td><a href=https://www.twitch.tv/"+ streamerName+" target=\"_blank\">"+streamerName+"</a></td> <td>"+ liveGameName + "</td> "
+          
+        // console.log(streamerName)
+        if (thisWeekSchedule) {
+          //client.say(target, message)//+streamerInfo.data[0].description)
+          // console.log(thisWeekSchedule)
+          
+          for (let weekday in thisWeekSchedule) {
+            var gameNameAndTime = ""
+            // console.log(weekday)
+            weekday = thisWeekSchedule[weekday]
+            // console.log(weekday)//undefined???!!!
+            if (weekday && weekday.length) {
+              for (let gameSegment in weekday) {
+                gameNameAndTime = gameNameAndTime + getGameNameAndTime(weekday[gameSegment].category, weekday[gameSegment].title, weekday[gameSegment].start_time) + '\n'
+              }
+            }
+            scheduleTable= scheduleTable+"<td>"+ gameNameAndTime + "</td> "
+          }
+        }
+  return scheduleTable
+}
+
+function getStreamerScheduleInfo(streamerName, streamerId) {
+          // var streamerInfo = getStreamInfo(streamerName)  
+          //   var broadCasterType = streamerInfo.data[0].broadcaster_type
+            var broadCasterType = ""
+          var game = ""
+          var schedule = getSchedule(streamerId) 
+          var now = new Date()
+          var scheduleEndDate = new Date();
+          scheduleEndDate.setDate(now.getDate() + 7)
+          schedule = getStreamsBetween(schedule, now, scheduleEndDate) 
+          if (schedule) {
+            
+            
+            // var thisWeekSchedule = []
+            var thisWeekSchedule = {
+              Monday: [],
+              Tuesday: [],
+              Wednesday: [],
+              Thursday: [],
+              Friday: [],
+              Saturday: [],
+              Sunday: []
+            }
+            
+            for ( var i=0;i<schedule.length;i++) {
+              // var category = schedule[0].category
+              // var title = schedule[0].title
+              var startTime = schedule[i].start_time
+              // schedule[i].weekday=new Date(startTime).toLocaleDateString('en-us', { weekday:"long"})
+              // thisWeekSchedule.push(schedule[i])
+              
+              var weekday = new Date(startTime).toLocaleDateString('en-us', { weekday:"long"})
+              schedule[i].weekday = weekday
+              thisWeekSchedule[weekday].push(schedule[i])
+
+
+              // var game = getGameNameAndTime(category, title, startTime)
+
+              // var message = broadCasterType+ " " +streamerName+" is offline. They stream "+game+"! https://twitch.tv/"+streamerName
+            }
+            
+            return thisWeekSchedule
+          } else {
+            // get last streamed day, or tuesday, for example.
+          }
+            return null// "Streamer " +streamerName+ " does not have a schedule"
+}
+
+function getGameNameAndTime(category, title, startTime) {
+      var game = ""
+      if (category) {
+        game = category.name 
+      } else if (title) {
+        // game = "'"+title+"'"
+      }
+      var gameDate = new Date(startTime);
+      var minutes = ""
+      if (gameDate.getMinutes()) {
+        minutes = ":"+gameDate.getMinutes()
+      }
+      return gameDate.getHours()+minutes+" "+game
+}
+
+// { id: 'eyJzZWdtZW50SUQiOiI3ZjZhZGE0Zi1kZDZkLTQ3OWMtOTA2Mi0xNzk4OTFkNWNmMzgiLCJpc29ZZWFyIjoyMDIzLCJpc29XZWVrIjoxNX0=',
+//     start_time: '2023-04-15T01:00:00Z',
+//     end_time: '2023-04-15T04:00:00Z',
+//     title: '',
+//     canceled_until: null,
+//     category: null,
+//     is_recurring: true },
+// { id: 'eyJzZWdtZW50SUQiOiI3sdfdsfdsfZjZhZGE0Zi1kZDZkLTQ3OWMtOTA2Mi0xNzk4OTFkNWNmMzgiLCJpc29ZZWFyIjoyMDIzLCJpc29XZWVrIjoxNX0=',
+//     start_time: '2023-04-22T01:00:00Z',
+//     end_time: '2023-04-22T04:00:00Z',
+//     title: '',
+//     canceled_until: null,
+//     category: null,
+//     is_recurring: true },
+// { id: 'eyJzZWdtZW50SUQiOiI3sdfdsfdsfZjZhZGE0Zi1kZDZkLTQ3OWMtOTA2Mi0xNzk4OTFkNWNmMzgiLCJpc29ZZWFyIjoyMDIzLCJpc29XZWVrIjoxNX0=',
+//     start_time: '2023-04-22T01:00:00Z',
+//     end_time: '2023-04-22T04:00:00Z',
+//     title: '',
+//     canceled_until: null,
+//     category: null,
+//     is_recurring: true },
+
+function getSchedule(streamerId) {
+        var streamerSchedule = getUrl("schedule?broadcaster_id=" + streamerId)
+        if (streamerSchedule.data == undefined) {
+          // console.log("Streamer doesn't have a schedule")
+        } else {
+          
+          // schedule.vacation_mode - DanielAndMaya have enabled
+          var scheduledStreamSegments = streamerSchedule.data.segments
+          if (streamerSchedule.data.vacation) {
+            scheduledStreamSegments = getStreamsNotBetween(scheduledStreamSegments, streamerSchedule.data.vacation.start_time, streamerSchedule.data.vacation.end_time)
+          }
+          // console.log(streamerSchedule)
+          // console.log(scheduledStreamSegments)
+          return scheduledStreamSegments
+        }
+  return null
+}
+
+function getStreamsNotBetween(schedule, startTime, endTime) {
+   // broadcaster_name: 'DanielAndMaya',
+   //   broadcaster_login: 'danielandmaya',
+   //   vacation:  
+   //    { start_time: '2023-03-23T04:00:00Z',
+   //      end_time: '2023-04-08T03:59:59Z' } },
+  var segments = []
+  for (var i=0;i<schedule.length;i++) {
+    var segment = schedule[i]
+    if (new Date(segment.start_time) < new Date(startTime) && (segment.end_time || new Date(segment.end_time) < new Date(startTime))) {
+      // before vacation, show it.
+      segments.push(segment)
+    } else if (new Date(segment.start_time) > new Date(endTime)) {
+      segments.push(segment)
+    } else {
+      // console.log("skipping segment "+segment)
+    }
+  }
+  return segments 
+}
+
+function getStreamsBetween(schedule, startTime, endTime) {
+  if (schedule != null) {
+    var segments = []
+    for (var i=0;i<schedule.length;i++) {
+      var segment = schedule[i]
+      if (new Date(segment.start_time) < new Date(endTime)) {
+        // in the week at all, show it.
+        segments.push(segment)
+      // } else if (new Date(segment.start_time) < new Date(endTime) && segment.end_time && new Date(segment.end_time) > new Date(startTime)) {
+      //   segments.push(segment)
+      } else {
+        // console.log("skipping segment "+segment)
+      }
+    }
+    return segments 
+  }
+  return null
+}
+
+function getStreamInfo(streamer) {
+    var urlToHost = "users?login="+streamer
+    var streamerInfo = getUrl(urlToHost)
+    // console.log("streamer info: "+streamer)
+    // console.log(streamerInfo)
+  return streamerInfo
+}
+
+function getStreamLiveInfo(streamer) {
+    var urlToHost = "users?login="+streamer
+    var streamerInfo = getUrl(urlToHost)
+    // console.log("streamer info: "+streamer)
+    // console.log(streamerInfo)
+  
+    var streamerId = streamerInfo.data[0].id
+    // console.log("streamerId: "+streamerId)
+    var liveInfo = getUrl("streams?user_id="+streamerId)
+    // console.log("liveinfo")
+    // console.log(liveInfo)
+  return liveInfo
+}
+
+// secrets below xD
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   var OAuthToken =  getOAuthToken()
+      
+function getUrl(url) {
+    var clientId = "qo4fjjsigq5kvywi68oy6wmxtac1w1"
+    var superSecret = "cnoiwxsg3ob5xuz89b5rp0hkbof1gy"
+    
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('GET', "https://api.twitch.tv/helix/"+url, false);
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.setRequestHeader('Client-Id', clientId);
+    
+    var authHeader = ` Bearer ${OAuthToken}`
+    xhr.setRequestHeader('Authorization', authHeader);
+    
+    // set response format
+    //xhr.responseType = 'json';
+    
+    xhr.send(null);
+    // console.log(xhr)
+  
+    var info=""
+      if (xhr.status != 200) {
+        console.log("ERROR: status: "+xhr.status);
+      } else {
+         info = JSON.parse(xhr.responseText);
+      }
+  return info
+}
+
+function getOAuthToken() {
+  // GET https://id.twitch.tv/oauth2/authorize
+  //   ?client_id=<your client ID>
+  //   &redirect_uri=<your registered redirect URI>
+  //   &response_type=<type>
+  //   &scope=<space-separated list of scopes>
+  
+  //&client_secret=${superSecret}
+  const xhr = new XMLHttpRequest();
+  var superSecret = "cnoiwxsg3ob5xuz89b5rp0hkbof1gy"
+
+  var authHeader = ` Bearer ${superSecret}`
+  var urlToHost = `https://id.twitch.tv/oauth2/token?client_id=qo4fjjsigq5kvywi68oy6wmxtac1w1&grant_type=client_credentials&client_secret=${superSecret}`
+  xhr.open('POST', urlToHost, false);
+
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('Accept', '*/*');
+  // xhr.setRequestHeader('Client-Id', clientId);
+  // xhr.setRequestHeader('Authorization', superSecret);
+
+  // set response format
+  //xhr.responseType = 'json';
+
+  xhr.send(null);
+  
+  var refreshToken = ""
+  // console.log(xhr)
+  if (xhr.status != 200)
+      console.log("ERROR: status: "+xhr.status)
+  // console.log(xhr.responseText)
+  refreshToken = JSON.parse(xhr.responseText).access_token
+  // console.log(refreshToken)
+  return refreshToken
+}
+    </script>
+  </body>
+</html>
